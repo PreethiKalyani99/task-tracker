@@ -1,38 +1,159 @@
-.App {
+body {
+  margin: 0;
+  padding: 0;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.title-text, .im-in-button, .input-box, .add-button, .date-time, .close-day-btn, .filter-btn {
+  position: absolute; 
+}
+
+.title-text{
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: black;
+  font-size: 60px;
+  animation: fadeIn 5s; 
+}
+
+.main-page-image {
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+}
+
+.parent-container{
+  height: 100vh;
+  background-size: cover;
+}
+
+.sidebar-container{
+  background-color: white;
+}
+.sidebar-items{
+  display: flex;
+  padding: 40px;
+}
+
+.toggle-sidebar {
+  cursor: pointer;
+  padding: 20px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.shrink-icon{
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  float: left;
+}
+
+.shrink-li a:hover, .expand-li a:hover{
+  background-color: rgb(61, 61, 243);
   color: white;
+  width: 100%;
 }
 
-.App-link {
-  color: #61dafb;
+.hide{
+  display: none;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.page-background{
+  background-color: rgb(157, 233, 207);
+  height: 100%;
+  width: 100%;
+  opacity: 0.5;
+}
+
+.input-box, .add-button, .filter-btn{
+  top: 20%;
+}
+
+.im-in-button{
+  top: 20%;
+  left: 50%;
+  width: 10%;
+}
+
+.input-box{
+  left: 40%;
+  color: black;
+  width: 20%;
+  height: 5%;
+  padding: 10px;
+  border-radius: 25px;
+  border: 1px solid black;
+}
+
+.add-button{
+  left: 61%;
+  border-radius: 25px;
+}
+
+.date-time{
+  top: 10%;
+  left: 42%;
+}
+
+.close-day-btn{
+  bottom: 10%;
+  left: 46%;
+}
+
+.display-page{
+  position: absolute;
+  width: 90%;
+  height: 500px;
+  overflow: auto;
+  top: 30%;
+  left: 35%;
+}
+
+.singleTask-container{
+  display: flex;
+}
+
+.task-text{
+  width: 25%;
+}
+
+.time, .checkbox-input, .track-btns{
+  margin-right: 2%;
+}
+
+.track-btns{
+  width: 7%;
+  height: 5%;
+  margin-left: 1%;
+}
+
+
+.checkbox-input{
+  width: 20px;
+  height: 20px;
+}
+
+.time{
+  border: none;
+  background-color: transparent;
+  outline: none;
+  margin-bottom: 2%;
+}
+
+.filter-btn{
+  position: absolute !important;
+  top: 10%;
+  left: 80%;
+  width: 10px !important;
+  height: 10px !important;
+}
+
+.filter{
+  position: absolute;
+  left: 67%;
 }
