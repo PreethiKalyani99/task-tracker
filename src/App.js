@@ -18,7 +18,7 @@ function App() {
     setIsSidebarShrunk(!isSidebarShrunk)
   }
   return (
-    <Router>
+    <Router  basename='/task-tracker'>
       <Provider store={store}>
         <Row className="parent-container">
             <Col lg={isSidebarShrunk ? '1' : '2'} className='sidebar-container'>
