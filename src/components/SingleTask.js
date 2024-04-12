@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { totalTimeTaken, updateTaskStatus } from "../redux/TaskTrackerSlice";
+import { totalTimeTaken, updateTaskStatus, filterTasks } from "../redux/TaskTrackerSlice";
 import { useDispatch } from 'react-redux';
 
 export function SingleTask(props) {
@@ -22,51 +22,59 @@ export function SingleTask(props) {
   
   useEffect(() => {
       if (isRunning) {
-          intervalIdRef.current = setInterval(() => {
-              setElapsedTime((prevElapsedTime) => prevElapsedTime + 1000) 
-            }, 1000)
-        } else {
+        intervalIdRef.current = setInterval(() => {
+            setElapsedTime((prevElapsedTime) => prevElapsedTime + 1000) 
+        }, 1000)
+      } else {
             clearInterval(intervalIdRef.current)
             intervalIdRef.current = null 
-        }
-        return () => clearInterval(intervalIdRef.current)
-    }, [isRunning])
+      }
+      return () => clearInterval(intervalIdRef.current)
+  }, [isRunning])
     
-    const handleStart = () => {
-        dispatch(updateTaskStatus({id: props.id, status: 'Inprogress'}))
-        console.log(props.task.status, 'staus start')
-        setIsRunning(true)
-        if (!isTaskCompleted) {
-            const [hours, minutes, seconds] = inputTime.split(":").map(Number)
-            const inputTimeInMs = (hours * 60 * 60 + minutes * 60 + seconds) * 1000
-            setElapsedTime(inputTimeInMs)
-            setStartTime(Date.now() - inputTimeInMs)
-        }
+  const handleStart = () => {
+    dispatch(updateTaskStatus({id: props.id, status: 'Inprogress'}))
+    dispatch(filterTasks({options: props.selectedOptions}))
+    setIsRunning(true)
+    if (!isTaskCompleted) {
+      const [hours, minutes, seconds] = inputTime.split(":").map(Number)
+      const inputTimeInMs = (hours * 60 * 60 + minutes * 60 + seconds) * 1000
+      setElapsedTime(inputTimeInMs)
+      setStartTime(Date.now() - inputTimeInMs)
     }
+  }
     
-    const handleStop = () => {
-        setIsRunning(false)
-        setInputTime(totalTime)
-        dispatch(totalTimeTaken({id: props.id, time: inputTime}))
-    }
+  const handleStop = () => {
+      setIsRunning(false)
+      setInputTime(totalTime)
+      dispatch(totalTimeTaken({id: props.id, time: inputTime}))
+  }
 
-    const handleTaskComplete = () => {
-        setIsTaskCompleted(!isTaskCompleted)
-        dispatch(updateTaskStatus({id: props.id, status: 'Completed'}))
-        setIsRunning(false)
-    }
+  const handleTaskComplete = () => {
+    setIsTaskCompleted(!isTaskCompleted)
+    const status = isTaskCompleted ? 'Inprogress' : 'Completed'
+    dispatch(updateTaskStatus({id: props.id, status: status}))
+    setIsRunning(false)
     
-    const totalTime = formatTime(elapsedTime)
+    const filteredOptions = isTaskCompleted
+    ? props.selectedOptions.filter(option => option !== 'Completed')
+    : props.selectedOptions
+
+    dispatch(filterTasks({ options: filteredOptions })) 
+  }
     
-    return (
+  const totalTime = formatTime(elapsedTime)
+  const statusCheck = props.task.status === 'Completed' ? true : isTaskCompleted
+
+  return (
     <div className="singleTask-container">
-      <input className="checkbox-input mt-1" type="checkbox" name="taskComplete" checked={isTaskCompleted} onChange={handleTaskComplete} />
+      <input className="checkbox-input mt-1" type="checkbox" name="taskComplete" checked={statusCheck} onChange={handleTaskComplete} />
       <p className="task-text">{props.task.text}</p>
-      <button className={`${isRunning || isTaskCompleted ? 'track-btns hide' : "track-btns"}`} onClick={handleStart}>Start Tracking</button>
-      <button className={`${!isRunning || isTaskCompleted ? 'track-btns hide' : "track-btns"}`} onClick={handleStop}>Stop Tracking</button>
-      {isRunning && !isTaskCompleted && <p className="time">{totalTime}</p>}
-      {!isRunning && !isTaskCompleted && <input type='text' className='time' value={inputTime} onChange={(e) => setInputTime(e.target.value)}/>}
-      {isTaskCompleted && <p className="ms-4 time">{props.task.status}</p>}
+      <button className={`${isRunning || statusCheck ? 'track-btns hide' : "track-btns"}`} onClick={handleStart}>Start Tracking</button>
+      <button className={`${!isRunning || statusCheck ? 'track-btns hide' : "track-btns"}`} onClick={handleStop}>Stop Tracking</button>
+      {isRunning && !statusCheck && <p className="time">{totalTime}</p>}
+      {!isRunning && !statusCheck && <input type='text' className='time' value={inputTime} onChange={(e) => setInputTime(e.target.value)}/>}
+      {statusCheck &&  <p className="time ms-4">Completed</p>}
     </div>
   )
 }

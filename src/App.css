@@ -147,7 +147,7 @@ body {
 
 .filter-btn{
   position: absolute !important;
-  top: 10%;
+  top: 0%;
   left: 80%;
   width: 10px !important;
   height: 10px !important;
@@ -155,5 +155,5 @@ body {
 
 .filter{
   position: absolute;
-  left: 67%;
+  left: 75%;
 }
