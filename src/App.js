@@ -8,7 +8,6 @@ import { HomePage } from './components/HomePage';
 import { SideBar } from './components/SideBar';
 import { CreateTask } from './components/CreateTask';
 import { Reports } from './components/Reports';
-import { SaveTask } from './components/SaveTask';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -31,7 +30,6 @@ function App() {
               <Routes>
                   <Route path='/' element={<HomePage/>}></Route>
                   <Route path='/create-task' element={<CreateTask/>}></Route>
-                  <Route path='/save-task' element={<SaveTask/>}></Route>
                   <Route path='/reports' element={<Reports/>}></Route>
               </Routes>
             </Col>

@@ -1,13 +1,64 @@
-import React from "react";
+import React, {useState} from "react";
 import {Button} from 'react-bootstrap'
-import { useNavigate } from "react-router-dom";
+import { format } from 'date-fns';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTodayTask, filterTasks } from "../redux/TaskTrackerSlice";
+import { DisplayTodayTask } from "./DisplayTodayTask";
+import { FilterTasks } from "./FilterTasks";
 
 export function CreateTask(){
-    const navigate = useNavigate()
-    return(
+    const [inputValue, setInputValue] = useState('')
+    let [uniqueId, setUniqueId] = useState(0) 
+    const {selectedOptions} = useSelector(state => state.taskTracker)
+    const dispatch = useDispatch()
+    const currentDateTime = format(new Date(), "MMMM do, h:mma")
+
+    const handleInputChange = (e) => {
+        setInputValue(e.target.value)
+    }
+
+    const handleKey = (e) => {
+        if(e.key === 'Enter'){
+            addTask()
+        }
+    }
+    const addTask = () => {
+        if(inputValue !== ''){
+            dispatch(addTodayTask({
+                id: uniqueId,
+                text: inputValue,
+                date: currentDateTime,
+                status: 'Incomplete'
+            }))
+            setUniqueId(uniqueId+1)
+            dispatch(filterTasks({options: selectedOptions}))
+            setInputValue('')
+        }
+        else{
+            alert('Please enter task description')
+        }
+    }
+    
+    return (
         <>
             <div className="page-background"></div>
-            <Button className="im-in-button" onClick={() => navigate('/save-task')}>I'm in!</Button>
+            <div>
+                <h1 className="date-time">{currentDateTime}</h1>
+                <input 
+                    type="text" 
+                    placeholder="Add task..." 
+                    name="task"
+                    className="input-box" 
+                    onKeyDown={handleKey}
+                    value={inputValue} 
+                    onChange={handleInputChange}
+                ></input>
+                <Button className="add-button mt-1 fw-bold" onClick={addTask}>+</Button>
+                <FilterTasks
+                    selectedOptions={selectedOptions}
+                />
+                <DisplayTodayTask selectedOptions={selectedOptions}/>
+            </div>
         </>
     )
 }

@@ -26,8 +26,8 @@ export function SingleTask(props) {
             setElapsedTime((prevElapsedTime) => prevElapsedTime + 1000) 
         }, 1000)
       } else {
-            clearInterval(intervalIdRef.current)
-            intervalIdRef.current = null 
+          clearInterval(intervalIdRef.current)
+          intervalIdRef.current = null 
       }
       return () => clearInterval(intervalIdRef.current)
   }, [isRunning])
@@ -45,22 +45,21 @@ export function SingleTask(props) {
   }
     
   const handleStop = () => {
-      setIsRunning(false)
       setInputTime(totalTime)
-      dispatch(totalTimeTaken({id: props.id, time: inputTime}))
+      dispatch(totalTimeTaken({id: props.id, time: totalTime}))
+      setIsRunning(false)
   }
 
   const handleTaskComplete = () => {
     setIsTaskCompleted(!isTaskCompleted)
+
     const status = isTaskCompleted ? 'Inprogress' : 'Completed'
+    const timer = props.totalTimeForATask[props.id] === undefined ? '00:00:00' : props.totalTimeForATask[props.id]
+
     dispatch(updateTaskStatus({id: props.id, status: status}))
     setIsRunning(false)
-    
-    const filteredOptions = isTaskCompleted
-    ? props.selectedOptions.filter(option => option !== 'Completed')
-    : props.selectedOptions
-
-    dispatch(filterTasks({ options: filteredOptions })) 
+    setInputTime(timer)
+    dispatch(filterTasks({ options: props.selectedOptions })) 
   }
     
   const totalTime = formatTime(elapsedTime)
@@ -68,11 +67,11 @@ export function SingleTask(props) {
 
   return (
     <div className="singleTask-container">
-      <input className="checkbox-input mt-1" type="checkbox" name="taskComplete" checked={statusCheck} onChange={handleTaskComplete} />
-      <p className="task-text">{props.task.text}</p>
-      <button className={`${isRunning || statusCheck ? 'track-btns hide' : "track-btns"}`} onClick={handleStart}>Start Tracking</button>
-      <button className={`${!isRunning || statusCheck ? 'track-btns hide' : "track-btns"}`} onClick={handleStop}>Stop Tracking</button>
-      {isRunning && !statusCheck && <p className="time">{totalTime}</p>}
+      <input className="checkbox-input mt-2" type="checkbox" name="taskComplete" checked={statusCheck} onChange={handleTaskComplete} />
+      <p className="task-text mt-2">{props.task.text}</p>
+      <button className={`${isRunning || statusCheck ? 'hide' : "track-btns"}`} onClick={handleStart}>Start Tracking</button>
+      <button className={`${!isRunning || statusCheck ? 'hide' : "track-btns"}`} onClick={handleStop}>Stop Tracking</button>
+      {isRunning && !statusCheck && <input disabled className="time" value={totalTime}></input>}
       {!isRunning && !statusCheck && <input type='text' className='time' value={inputTime} onChange={(e) => setInputTime(e.target.value)}/>}
       {statusCheck &&  <p className="time ms-4">Completed</p>}
     </div>

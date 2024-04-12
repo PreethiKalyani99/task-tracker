@@ -108,7 +108,7 @@ body {
 .display-page{
   position: absolute;
   width: 90%;
-  height: 500px;
+  height: 600px;
   overflow: auto;
   top: 30%;
   left: 35%;
@@ -116,6 +116,7 @@ body {
 
 .singleTask-container{
   display: flex;
+  margin-bottom: 2%;
 }
 
 .task-text{
@@ -128,10 +129,11 @@ body {
 
 .track-btns{
   width: 7%;
-  height: 5%;
   margin-left: 1%;
+  background-color: #0d6efd;
+  color: white;
+  border: none;
 }
-
 
 .checkbox-input{
   width: 20px;
@@ -142,7 +144,6 @@ body {
   border: none;
   background-color: transparent;
   outline: none;
-  margin-bottom: 2%;
 }
 
 .filter-btn{
