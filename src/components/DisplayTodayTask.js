@@ -12,7 +12,8 @@ export function DisplayTodayTask(props){
                     return (
                        <SingleTask
                           key={task.id}
-                          task={task}  
+                          task={task}
+                          index={index}  
                           id={task.id}
                           totalTimeForATask={totalTimeForATask}
                           selectedOptions={selectedOptions}

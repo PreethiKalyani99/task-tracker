@@ -12,8 +12,8 @@ export function FilterTasks(props){
     }
 
     function handleOptionChange(option){
-        const updatedOptions = [...props.selectedOptions];
-        const index = updatedOptions.indexOf(option);
+        const updatedOptions = [...props.selectedOptions]
+        const index = updatedOptions.indexOf(option)
 
         if (index === -1) {
         updatedOptions.push(option)

@@ -67,13 +67,17 @@ export function SingleTask(props) {
 
   return (
     <div className="singleTask-container">
-      <input className="checkbox-input mt-2" type="checkbox" name="taskComplete" checked={statusCheck} onChange={handleTaskComplete} />
-      <p className="task-text mt-2">{props.task.text}</p>
+      <p className="mt-3 me-3 fw-bold">{props.index + 1}.</p>
+      <p className="task-text mt-3">{props.task.text}</p>
       <button className={`${isRunning || statusCheck ? 'hide' : "track-btns"}`} onClick={handleStart}>Start Tracking</button>
       <button className={`${!isRunning || statusCheck ? 'hide' : "track-btns"}`} onClick={handleStop}>Stop Tracking</button>
       {isRunning && !statusCheck && <input disabled className="time" value={totalTime}></input>}
       {!isRunning && !statusCheck && <input type='text' className='time' value={inputTime} onChange={(e) => setInputTime(e.target.value)}/>}
-      {statusCheck &&  <p className="time ms-4">Completed</p>}
+      {statusCheck &&  <p className="time completed mt-2">COMPLETED</p>}
+      <label className={statusCheck ? 'switch switch-margin' : "switch"}>
+        <input className="" type="checkbox" name="taskComplete" checked={statusCheck} onChange={handleTaskComplete} />
+        <span className="slider round"></span>
+      </label>
     </div>
   )
 }
