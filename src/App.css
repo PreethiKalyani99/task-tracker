@@ -130,9 +130,16 @@ body {
 .track-btns{
   width: 7%;
   margin-left: 1%;
-  background-color: #0d6efd;
   color: white;
   border: none;
+}
+
+.start{
+  background-color: #0d6efd;
+}
+
+.stop{
+  background-color: red;
 }
 
 .time{
