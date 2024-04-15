@@ -112,6 +112,7 @@ body {
   overflow: auto;
   top: 30%;
   left: 35%;
+  z-index: 1 !important;
 }
 
 .singleTask-container{
@@ -150,15 +151,17 @@ body {
 
 .filter-btn{
   position: absolute !important;
-  top: 0%;
-  left: 80%;
-  width: 10px !important;
+  top: 20%;
+  left: 65%;
+  width: 200px !important;
   height: 10px !important;
+  z-index: 2 !important;
 }
 
 .filter{
   position: absolute;
   left: 75%;
+  z-index: 2 !important;
 }
 
 .switch {
@@ -223,4 +226,11 @@ input:checked + .slider:before {
 .completed{
   color: green;
   margin-left: 1%;
+}
+
+ul{
+  list-style-type: none;
+  background-color: white;
+  border-radius: 25px;
+  padding: 10px;
 }
